@@ -35,11 +35,3 @@ The notebook expects a CSV file:
 - `BPI_Challenge_2019.csv`
 
 
-## Setup
-
-Recommended: Python 3.10+ and a fresh environment.
-
-Install core dependencies:
-
-```bash
-pip install numpy pandas matplotlib scikit-learn qiskit ipython jupyter
