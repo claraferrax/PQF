@@ -34,7 +34,6 @@ The notebook expects a CSV file:
 
 - `BPI_Challenge_2019.csv`
 
-Place it in the repo root (same folder as the notebook), or change `CSV_PATH` inside the notebook.
 
 ## Setup
 
