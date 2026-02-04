@@ -24,7 +24,7 @@ The focus is the **low false-alarm regime**. In monitoring, false alarms quickly
 - **One-Class SVM** trained on the precomputed kernel
 - Feature dimension is aligned with a **fixed qubit budget** (pilot uses 8 qubits)
 
-  ![PQF feature map](figure_pqf_feature_map.pdf)
+  ![PQF feature map](./figure_pqf_feature_map.pdf)
 
 
 ## Labels and evaluation setup
@@ -35,5 +35,5 @@ To reduce sensitivity to randomness, the pipeline is **repeated across multiple 
 
 ## Repository contents
 
-- `pqf_bpic2019_pilot_ci.ipynb`  
+- [pqf_bpic2019_pilot_ci.ipynb](./pqf_bpic2019_pilot_ci.ipynb)  
   Main notebook. Loads the log, builds features, runs baselines + PQF, calibrates thresholds at α=0.01, and reports metrics.
