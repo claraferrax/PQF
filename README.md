@@ -1,37 +1,36 @@
 # PQF (Projected Quantum Features) pilot on BPIC 2019
 
-This repo contains a pilot experiment for **supply chain anomaly detection** using **Projected Quantum Features (PQF)** on the **BPI Challenge 2019** procurement event log.
+This repo contains a pilot experiment that tests **Projected Quantum Features (PQF)** for **operations-style anomaly detection** on the **BPI Challenge 2019** procurement event log.
 
-Goal: compare a PQF-like **quantum fidelity kernel** + **One-Class SVM** against simple classical baselines under a **strict low false-positive budget**.
+The focus is the **low false-alarm regime**. In monitoring, false alarms quickly destroy trust, so the evaluation is designed around a strict alert budget.
 
-## What this repo implements
+## What this repo does
 
-The pilot follows an operations-focused evaluation protocol:
+- Builds **case-level features** from the BPIC 2019 event log.
+- Uses a **chronological train / validation / test** split with a **guard band** to reduce temporal leakage.
+- Applies **robust preprocessing** (median + MAD), fit on train only.
+- Calibrates thresholds on **validation normals** to target **α = 0.01** false-positive rate, then freezes the threshold for test.
+- Reports **PR-AUC** plus **Precision@α** and **Recall@α** at the operating point.
 
-- Chronological **train / validation / test** split with a **guard band**
-- **Robust scaling** (median + MAD), fit on train only
-- Threshold calibration on **validation normals** to target **α = 0.01** false-positive rate
-- Metrics: **PR-AUC**, plus **Precision@α** and **Recall@α**
-- Classical baselines:
-  - Robust Z-score scoring
-  - PCA reconstruction error
-  - KMeans distance-to-centroid
-- Quantum method:
-  - PQF-like **fidelity kernel** computed with **Qiskit statevector simulation**
-  - **One-Class SVM** trained on the precomputed kernel
-- Labels:
-  - BPIC 2019 has no anomaly annotations in this setup
-  - The notebook uses **controlled anomaly injection** to create proxy labels for evaluation
+## Methods included
+
+### Classical baselines (transparent, low-overhead)
+- Robust Z-score scoring (max absolute robust z across features)
+- PCA reconstruction error
+- K-means distance to nearest centroid
+
+### PQF hybrid method
+- PQF-style **quantum feature map** + **fidelity kernel** computed with **Qiskit statevector simulation**
+- **One-Class SVM** trained on the precomputed kernel
+- Feature dimension is aligned with a **fixed qubit budget** (pilot uses 8 qubits)
+
+## Labels and evaluation setup
+
+BPIC 2019 does not provide anomaly annotations for this setup, so the notebook uses a **controlled anomaly injection** strategy to create proxy labels for evaluation. Training stays unsupervised.
+
+To reduce sensitivity to randomness, the pipeline is **repeated across multiple random seeds** and results are summarized with variability estimates.
 
 ## Repository contents
 
-- `pqf_bpic2019_pilot_fixed2.ipynb`  
-  Main notebook. It loads the log, builds case-level features, runs all methods, calibrates thresholds, and saves outputs.
-
-## Data
-
-The notebook expects a CSV file:
-
-- `BPI_Challenge_2019.csv`
-
-
+- `pqf_bpic2019_pilot_ci.ipynb`  
+  Main notebook. Loads the log, builds features, runs baselines + PQF, calibrates thresholds at α=0.01, and reports metrics.
