@@ -24,7 +24,7 @@ The focus is the **low false-alarm regime**. In monitoring, false alarms quickly
 - **One-Class SVM** trained on the precomputed kernel
 - Feature dimension is aligned with a **fixed qubit budget** (pilot uses 8 qubits)
 
-  ![pic](./figure_pqf_feature_map.pdf)
+  ![PQF feature map](../figure_pqf_feature_map.pdf)
 
 
 ## Labels and evaluation setup
